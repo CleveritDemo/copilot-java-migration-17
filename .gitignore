@@ -9,3 +9,6 @@ new-movie-ws/target/
 
 # vs code
 .vscode/
+
+# .idea
+.idea/
