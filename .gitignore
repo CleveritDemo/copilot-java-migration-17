@@ -1,0 +1,14 @@
+# old-movie-ws
+
+old-movie-ws/target/
+
+# new-movie-ws
+
+new-movie-ws/target/
+
+
+# vs code
+.vscode/
+
+# .idea
+.idea/
