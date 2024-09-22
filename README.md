@@ -98,7 +98,7 @@ Perform the steps.
 
 ![config](assets/image-15.png)
 
-Create the **V1__Initial_Setup.sql** for Seed the Database.
+Create the **V2__Initial_Setup.sql** for Seed the Database.
 
 ![initial-setup](assets/image-16.png)
 
@@ -112,6 +112,16 @@ Flyways have some problems with the latest PostgresSQL Database, so you need to 
 <dependency>
      <groupId>org.flywaydb</groupId>
      <artifactId>flyway-database-postgresql</artifactId>
+</dependency>
+```
+
+**Unsupported Postgres 16.x**
+
+```xml	
+<dependency>
+     <groupId>org.flywaydb</groupId>
+     <artifactId>flyway-core</artifactId>
+     <version>10.15.2</version>
 </dependency>
 ```
 
