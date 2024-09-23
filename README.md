@@ -137,6 +137,14 @@ We will be going to add Java Stream support to make validations to our methods.
 
 ![with-chat-prompt](assets/image-18.png)
 
+```plaintext
+Using java stream add validations to service:
+- If a movie doesn’t exist throw 404 error.
+- If a movie with the same name exists on adding throw movie already exists.
+- Updates validate if a movie exists.
+- Delete validate if a movie exists.
+```
+
 Add the modifications to have the validations on our MovieService.
 
 Separate Logic in **MovieServiceImpl** and **MovieService**.
@@ -190,19 +198,19 @@ We will be going to add Java Stream support to make validations to our methods.
 
 Using Copilot Inline **Ctrl/Cmd + Shift + G** to add the documentation.
 
-![docs-inline](image-24.png)
+![docs-inline](assets/image-24.png)
 
 Or using the chat, grab the **MovieServiceImpl** to the Chat and make a prompt using /doc.
 
-![using-chat](image-25.png)
+![using-chat](assets/image-25.png)
 
 Copy the result and compare with the Clipboard by doing right click.
 
-![clipboard-comparison](image-26.png)
+![clipboard-comparison](assets/image-26.png)
 
 This is very useful to accept the changes one by one.
 
-![usage-clipboard-compare](image-27.png)
+![usage-clipboard-compare](assets/image-27.png)
 
 ## Add getAllMovies method and Add Test 
 
@@ -212,9 +220,9 @@ Try using mostly copilot add the method getAllMovies and add unit testing.
 
 Copilot can also give information about security Issues on our Code.
 
-![security-issue-suggestion](image-28.png)
+![security-issue-suggestion](assets/image-28.png)
 
-![false-possitive-iguess](image.png)
+![false-possitive-iguess](assets/image.png)
 
 > By using the repository methods provided by Spring Data JPA, you ensure that your queries are parameterized and safe from SQL injection.
 
