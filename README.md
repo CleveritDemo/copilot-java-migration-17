@@ -1,4 +1,4 @@
-# Collective Java IntelliJ GitHub Copilot Training
+# Java IntelliJ Migration Copilot Demo
 
 *Activity*: we have an old-webservice that managed the creation of movies, this must be migrate with Help of Copilot to a Spring Boot Application, adding unit testing and documentation.
 First, we need to clone the repository: 
