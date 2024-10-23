@@ -102,6 +102,12 @@ Create the **V2__Initial_Setup.sql** for Seed the Database.
 
 ![initial-setup](assets/image-16.png)
 
+Check if the `Movies` entity has the same attributes as the seeder SQL script. If there are differences we can use copilot to incorporate them into the entity before running the application.
+
+> Try adding by using Copilot Chat or Suggestions.
+
+![many-suggestions](assets/image-17.png)
+
 Run the application and check the seed migration is working.
 
 ### Troubleshooting
@@ -124,12 +130,20 @@ Flyways have some problems with the latest PostgresSQL Database, so you need to 
      <version>10.15.2</version>
 </dependency>
 ```
+**Flyway not running because no schema history table detected**
 
-Also make sure the entity has the same properties using the chat and adding as a reference the SQL initial file on migrations.
+Sometimes copilot doesn't suggest that Flyway must have a schema history table created, used to track all the changes realized over the schema. Using this setting on `application.properties` will setup to flyway create the table.
 
-> Try adding by using Copilot Chat or Suggestions.
+```plaintext
+spring.flyway.baseline-on-migrate=true
+```
+**Flyway is not running when i hit the run button**
 
-![many-suggestions](assets/image-17.png)
+Sometimes flyway will not execute after we run the application. So no migration will be executed. If this happen we can run the migrations using the terminal with the following command:
+```sh
+./mvnw flyway:migrate -Dflyway.url=jdbc:postgresql://localhost:5432/moviedb -Dflyway.user=postgres -Dflyway.password=Password123
+```
+This will use the maven wrapper to run flyway insted. **REMEMBER TO SUBSTITUTE THE VALUES OF THE PARAMETERS**
 
 ## Step 3: Add Validations and Using Java Stream on Service
 
