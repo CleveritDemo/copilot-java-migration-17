@@ -17,19 +17,22 @@ El objetivo es practicar usando las características que GH Copilot tiene para I
 
 Comenzamos creando nuestra estructura de carpetas basada en el siguiente prompt.
 
+👤Prompt:
 ```plaintext
 Hola Copilot, necesito ayuda para migrar un servicio web SOAP de películas a un servicio web REST usando Spring Boot, ¿podrías ayudarme a crear un plan de estrategia de migración?
-- Ayúdame con la estructura de carpetas que necesito crear para tener las mismas funcionalidades que ya existen en el servicio SOAP.
-- Nota: usa Jakarta en lugar de Javax
+Ayúdame con la estructura de carpetas que necesito crear para tener las mismas funcionalidades que ya existen en el servicio SOAP.
+Nota: usa Jakarta en lugar de Javax. Usa com.cleveritgroup.newmovierest como nombre de paquete
 ```
 
-Copilot mostrará qué estructura de carpetas crear.
+Copilot mostrará qué estructura de carpetas crear
 
 ### Realizar los pasos
 
-Crear paquetes; para obtener la estructura de carpetas y las clases necesarias.
+Crear paquetes dentro de `new-movie-ws/src/main/java/com.cleveritgroup.newmovierest`; para obtener la estructura de carpetas y las clases necesarias.
 
-![crear estructura de carpetas](assets/image.png)
+⚠️⚠ Es posible que copilot no genere la misma estructura de carpetas, pero podemos usar las sugerencias para obtener la estructura correcta.
+![crear estructura de carpetas](assets/img30.png)
+
 
 Ir a la entidad `Movie.java` que tiene algunos problemas, usemos Copilot Inline para corregir los errores.
 
@@ -45,31 +48,32 @@ Agregar los cambios en la entidad, pedir a Copilot que corrija usando Lombok.
 
 Usando *Copilot Chat* simplificar la *Entidad* usando *Lombok*.
 
-Prompt: 
+👤Prompt:
 ```plaintext
 Simplificar usando Lombok esta entidad
 ```
-![simplificar-usando-chat](assets/image-4.png)
 
 Esto nos dio la entidad actualizada pero usando Data, lo cual tiene un lint que podemos usar Copilot Inline nuevamente para pedir una /corrección.
 
-Prompt:
+👤Prompt:
 ```plaintext
-/fix Using @Data for JPA entities is not recommended. It can cause severe performance and memory consumption issues. 
+/fix Usar @Data para entidades JPA no es recomendable. Puede causar problemas graves de rendimiento y consumo de memoria. 
 ```
 
 ![usar-corrección-en-inline](assets/image-5.png)
 
 ![resultado](assets/image-6.png)
 
-En el servicio podemos usar Copilot para entender algunos lints usando @Autowired.
-
+👤Prompt:
 ```plaintext
-Field injection is not recommended. What can I do?
+La inyección de campos no es recomendada. ¿Qué puedo hacer?
 ```
-![por-qué-autowired-tiene-lint](assets/image-7.png)
+La idea es evitar usar autowired 
 
 Hacer los cambios en **MovieController** y **MovieService** para no usar **@Autowired**.
+
+una vez hecho los cambios, podemos ejecutar la aplicación y verificar que todo esté funcionando. Para ello, podemos irnos
+a la clase NewMovieRestApplication y hacer click en el botón de ejecutar, al lado del nombre de la clase.
 
 ### Solución de problemas
 
@@ -77,19 +81,31 @@ Hacer los cambios en **MovieController** y **MovieService** para no usar **@Auto
 
 Preguntar a **Copilot cómo solucionar este problema**.
 
-![corregir-inicio-de-aplicación](assets/image-9.png)
-
+👤Prompt:
+```plaintext
+Tengo este error al ejecutar la app:
+APPLICATION FAILED TO START  <hr></hr> Description:  Failed to configure a DataSource: 'url' attribute is not specified and no embedded datasource could be configured.  Reason: Failed to determine a suitable driver class
+```
 Para resolver este problema, agregar los cambios que sugiere Copilot.
 
-![sugerencias](assets/image-10.png)
+⚠️ Es posible que copilot de algunas propiedades distintas, pero podemos usar las sugerencias para obtener la solución correcta.
+```
+# application.properties
+spring.application.name=new-movie-rest
+
+spring.datasource.url=jdbc:postgresql://localhost:5432/moviedb
+spring.datasource.username=postgres
+spring.datasource.password=mysecretpassword
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+```
 
 El problema persiste porque también necesitamos crear un contenedor de Postgres, podemos usar **Copilot CLI** para saber cómo ejecutar un contenedor, si aún no lo tienes instalado, hazlo 😊 más tarde, también podemos usar el Chat, así que no hay problema.
 
-Prompt:
+👤Prompt:
 ```plaintext
 Cómo desplegar un contenedor de Docker con Postgres, usando `docker run`:
 ```
-![cómo-ejecutar-pg](assets/image-11.png)
 
 Podemos agregar **application.properties** como contexto para obtener la contraseña, el puerto y otras cosas listas.
 
@@ -99,11 +115,12 @@ Podemos agregar **application.properties** como contexto para obtener la contras
 
 Como podemos ver en la solución antigua, tenemos un **Seeder.sql** con información sobre las películas que necesitamos cargar.
 
-
+👤Prompt:
 ```plaintext
 cómo implementar la migración de flyway para sembrar la base de datos
 ```
-![seeder-sql](assets/image-13.png)
+
+Adjuntar seeder.sql que se enncuentra en la carpeta resources/db/migration, al chat de copilot.
 
 Realizar los pasos.
 
@@ -116,6 +133,23 @@ Realizar los pasos.
 Crear el **V2__Initial_Setup.sql** para sembrar la base de datos.
 
 ![configuración-inicial](assets/image-16.png)
+
+application.properties
+```
+spring.application.name=new-movie-rest
+
+spring.datasource.url=jdbc:postgresql://localhost:5432/moviedb
+spring.datasource.username=postgres
+spring.datasource.password=mysecretpassword
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+spring.flyway.enabled=true
+spring.flyway.url=jdbc:postgresql://localhost:5432/moviedb
+spring.flyway.user=postgres
+spring.flyway.password=mysecretpassword
+spring.flyway.locations=classpath:db/migration
+spring.flyway.baseline-on-migrate=true
+```
 
 Verificar si la entidad `Movies` tiene los mismos atributos que el script SQL de seeder. Si hay diferencias, podemos usar copilot para incorporarlas en la entidad antes de ejecutar la aplicación.
 
@@ -156,7 +190,7 @@ spring.flyway.baseline-on-migrate=true
 
 A veces flyway no se ejecutará después de ejecutar la aplicación. Por lo tanto, no se ejecutará ninguna migración. Si esto sucede, podemos ejecutar las migraciones usando el terminal con el siguiente comando:
 ```sh
-./mvnw flyway:migrate -Dflyway.url=jdbc:postgresql://localhost:5432/moviedb -Dflyway.user=postgres -Dflyway.password=Password123
+./mvnw c
 ```
 Esto usará el wrapper de maven para ejecutar flyway en su lugar. **RECUERDA SUSTITUIR LOS VALORES DE LOS PARÁMETROS**
 
@@ -164,37 +198,37 @@ Esto usará el wrapper de maven para ejecutar flyway en su lugar. **RECUERDA SUS
 
 Vamos a agregar soporte de Java Stream para hacer validaciones a nuestros métodos.
 
-Prompt: 
+👤Prompt:
 ```plaintext
 Usando java stream agrega validaciones al servicio:
-- Si una película no existe, lanza un error 404.
-- Si una película con el mismo nombre existe al agregar, lanza que la película ya existe.
+- Si una película no existe, arroja un error 404.
+- Si una película con el mismo nombre existe al agregar, arroja un error comentando que la película ya existe.
 - Las actualizaciones validan si una película existe.
 - Eliminar valida si una película existe.
 ```
+Agregar archivo MovieService al chat de copilot.
 
-![con-prompt-de-chat](assets/image-18.png)
+Agregar las modificaciones para tener las validaciones en nuestro MovieServices, agregar tambien modificaciones en MovieController.
 
-Agregar las modificaciones para tener las validaciones en nuestro MovieService.
 
 Separar la lógica en **MovieServiceImpl** y **MovieService**.
 
-![separar-lógica](assets/image-19.png)
+👤 Prompt: 
+```
+Separa la logica de este servicio en MovieServiceImpl y MovieService
+```
+Agregar archivo Movie Service al chat de copilot.
 
-También verás algunas preguntas de seguimiento como.
-
-![preguntas-de-seguimiento](assets/image-20.png)
 
 ## Paso 4: Agregar Pruebas Junit
 
 Vamos a pedir a Copilot cómo agregar soporte Junit para MovieService.
 
-Prompt:
+👤Prompt:
 ```plaintext
-Cómo agregar pruebas unitarias a este proyecto?
+Cómo agregar pruebas unitarias a este proyecto usnado Junit?
 ```
 
-![agregar-pruebas-usando-chat](assets/image-21.png)
 
 Sigue las instrucciones para agregar soporte Junit y ejecutar la prueba.
 
@@ -203,15 +237,14 @@ Sigue las instrucciones para agregar soporte Junit y ejecutar la prueba.
 - **Simulación**: Usar Mockito para simular el MovieRepository e inyectarlo en MovieServiceImpl.
 - **Aserciones**: Usar aserciones de JUnit para verificar el comportamiento de los métodos del servicio.
 
-![prueba-ejecutándose-limpia](assets/image-22.png)
+![prueba-ejecutándose-limpia](/assets/image-tests.png)
 
 ## Paso 5: Agregar Documentación Swagger
 
-Prompt:
+👤Prompt:
 ```plaintext
 Cómo agregar documentación Swagger a esta API?
 ```
-![prompt-swagger](assets/image-23.png)
 
 Este ejemplo está destinado a fallar, vemos aquí cómo copilot no ha actualizado la documentación de spring-doc e intenta usar una versión antigua de swagger; de hecho, tuve que buscar en Google para corregir el error de dependencias.
 
@@ -237,19 +270,19 @@ Vamos a agregar soporte de Java Stream para hacer validaciones a nuestros métod
 
 Usando Copilot Inline **Ctrl/Cmd + Shift + G** para agregar la documentación.
 
-Prompt: 
+👤Prompt:
 ```plaintext
-/doc the next method
+/doc el siguiente metodo
 ```
-![docs-inline](assets/image-24.png)
 
 O usando el chat, arrastra el **MovieServiceImpl** al Chat y haz un prompt usando /doc.
 
-Prompt: 
+👤Prompt:
 ```plaintext
-/doc all the methods in this service
+/doc todos los metodos en este servicio
 ```
-![usando-chat](assets/image-25.png)
+adjuntar el archivo de servicio.
+
 
 Copia el resultado y compáralo con el Portapapeles haciendo clic derecho.
 
@@ -268,8 +301,6 @@ Intenta usar principalmente copilot para agregar el método getAllMovies y agreg
 Copilot también puede dar información sobre problemas de seguridad en nuestro código.
 
 ![sugerencia-de-problema-de-seguridad](assets/image-28.png)
-
-![falso-positivo-creo](assets/image.png)
 
 > Al usar los métodos del repositorio proporcionados por Spring Data JPA, aseguras que tus consultas estén parametrizadas y sean seguras contra inyecciones SQL.
 
