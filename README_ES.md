@@ -31,6 +31,7 @@ Copilot mostrará qué estructura de carpetas crear
 Crear paquetes dentro de `new-movie-ws/src/main/java/com.cleveritgroup.newmovierest`; para obtener la estructura de carpetas y las clases necesarias.
 
 ⚠️⚠ Es posible que copilot no genere la misma estructura de carpetas, pero podemos usar las sugerencias para obtener la estructura correcta.
+
 ![crear estructura de carpetas](assets/img30.png)
 
 
@@ -96,8 +97,14 @@ spring.application.name=new-movie-rest
 spring.datasource.url=jdbc:postgresql://localhost:5432/moviedb
 spring.datasource.username=postgres
 spring.datasource.password=mysecretpassword
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+spring.flyway.enabled=true
+spring.flyway.url=jdbc:postgresql://localhost:5432/moviedb
+spring.flyway.user=postgres
+spring.flyway.password=mysecretpassword
+spring.flyway.locations=classpath:db/migration
+spring.flyway.baseline-on-migrate=true
 ```
 
 El problema persiste porque también necesitamos crear un contenedor de Postgres, podemos usar **Copilot CLI** para saber cómo ejecutar un contenedor, si aún no lo tienes instalado, hazlo 😊 más tarde, también podemos usar el Chat, así que no hay problema.
