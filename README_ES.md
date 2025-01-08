@@ -30,7 +30,7 @@ Copilot mostrará qué estructura de carpetas crear
 
 Crear paquetes dentro de `new-movie-ws/src/main/java/com.cleveritgroup.newmovierest`; para obtener la estructura de carpetas y las clases necesarias.
 
-⚠️⚠ Es posible que copilot no genere la misma estructura de carpetas, pero podemos usar las sugerencias para obtener la estructura correcta.
+⚠️ Es posible que copilot no genere la misma estructura de carpetas, pero podemos usar las sugerencias para obtener la estructura correcta.
 
 ![crear estructura de carpetas](assets/img30.png)
 
@@ -73,7 +73,7 @@ La idea es evitar usar autowired
 
 Hacer los cambios en **MovieController** y **MovieService** para no usar **@Autowired**.
 
-una vez hecho los cambios, podemos ejecutar la aplicación y verificar que todo esté funcionando. Para ello, podemos irnos
+Una vez hecho los cambios, podemos ejecutar la aplicación y verificar que todo esté funcionando. Para ello, podemos irnos
 a la clase NewMovieRestApplication y hacer click en el botón de ejecutar, al lado del nombre de la clase.
 
 ### Solución de problemas
@@ -196,9 +196,11 @@ spring.flyway.baseline-on-migrate=true
 **Flyway no se ejecuta cuando presiono el botón de ejecutar**
 
 A veces flyway no se ejecutará después de ejecutar la aplicación. Por lo tanto, no se ejecutará ninguna migración. Si esto sucede, podemos ejecutar las migraciones usando el terminal con el siguiente comando:
+
 ```sh
-./mvnw c
+./mvnw flyway:migrate -Dflyway.url=jdbc:postgresql://localhost:5432/moviedb -Dflyway.user=postgres -Dflyway.password=mysecretpassword
 ```
+
 Esto usará el wrapper de maven para ejecutar flyway en su lugar. **RECUERDA SUSTITUIR LOS VALORES DE LOS PARÁMETROS**
 
 ## Paso 3: Agregar Validaciones y Usar Java Stream en el Servicio
@@ -233,7 +235,7 @@ Vamos a pedir a Copilot cómo agregar soporte Junit para MovieService.
 
 👤Prompt:
 ```plaintext
-Cómo agregar pruebas unitarias a este proyecto usnado Junit?
+Cómo agregar pruebas unitarias a este proyecto usando Junit?
 ```
 
 

@@ -24,7 +24,8 @@ We start by creating our folder structure based on the following prompt.
 ```plaintext
 Hi Copilot, I need help to migrate a Movie Soap Webservice to a REST Web Service using Spring Boot, could you please help me to create a migration strategy plan.
 -	Help me with folder structure that I need to create to have the same functionalities that already exist on the SOAP Service.
--	Note: use Jakarta instead of Javax
+-Note: use Jakarta instead of Javax. Use com.cleveritgroup.newmovierest as package name.
+
 
 ```
 
@@ -32,7 +33,10 @@ Copilot will show what folder structure to create.
 
 ### Perform the steps 
 
-Create packages; to get the folder structure and needed classes.
+Create packages inside `new-movie-ws/src/main/java/com.cleveritgroup.newmovierest` to obtain the folder structure and necessary classes.
+
+
+⚠️ Copilot may not generate the same folder structure, but we can use the suggestions to get the correct structure.
 
 ![create folder structure](assets/image.png)
 
@@ -64,19 +68,36 @@ On the service we can use Copilot to understand some lints using @Autowired.
 
 Make the changes in **MovieController** and **MovieService** to not use **@Autowired**.
 
+Once the changes are made, we can run the application and verify that everything is working. To do this, we can go to the NewMovieRestApplication class and click the run button next to the class name.
+
+
 ### Troubleshooting
 
 ![aplication-problem-fixes](assets/image-8.png)
 
 Ask to **Copilot how to Fix this problem**.
 
+👤Prompt:
+```plaintext
+I have this error when running the app:
+APPLICATION FAILED TO START  <hr></hr> Description:  Failed to configure a DataSource: 'url' attribute is not specified and no embedded datasource could be configured.  Reason: Failed to determine a suitable driver class
+```
+To resolve this problem, add the changes suggested by Copilot.
+
 ![fix-app-startup](assets/image-9.png)
 
 To solve this problem, add the changes that Copilot suggests.
 
+⚠️ Copilot may provide some different properties, but we can use the suggestions to get the correct solution.
+
 ![suggestions](assets/image-10.png)
 
 The problem still because we need to also create a Postgres container, we can use **Copilot CLI** to how to run a container, if you don’t have installed yet, do it 😊 later, we can also use the Chat so no problem.
+
+👤Prompt:
+```plaintext
+How to deploy a Docker container with Postgres, using `docker run`:
+```
 
 ![how-to-run-pg](assets/image-11.png)
 
@@ -87,6 +108,13 @@ We can add **application.properties** as context to get password, port and other
 ## Step 2: Flyway Support for Seeder
 
 As we can see in the old Solution, we have a **Seeder.sql** with some information about the movies that we need to load.
+
+👤Prompt:
+```plaintext
+how to implement flyway migration to seed the database
+```
+
+Attach seeder.sql found in the resources/db/migration folder to the Copilot chat.
 
 ![seeder-sql](assets/image-13.png)
 
@@ -140,9 +168,11 @@ spring.flyway.baseline-on-migrate=true
 **Flyway is not running when i hit the run button**
 
 Sometimes flyway will not execute after we run the application. So no migration will be executed. If this happen we can run the migrations using the terminal with the following command:
+
 ```sh
 ./mvnw flyway:migrate -Dflyway.url=jdbc:postgresql://localhost:5432/moviedb -Dflyway.user=postgres -Dflyway.password=Password123
 ```
+
 This will use the maven wrapper to run flyway insted. **REMEMBER TO SUBSTITUTE THE VALUES OF THE PARAMETERS**
 
 ## Step 3: Add Validations and Using Java Stream on Service
@@ -173,6 +203,12 @@ You also will see some follow-up questions like.
 
 We are going to ask Copilot how to add Junit Support for MovieService.
 
+👤Prompt:
+```plaintext
+Cómo agregar pruebas unitarias a este proyecto usando Junit?
+```
+
+
 ![add-testing-using-chat](assets/image-21.png)
 
 Follow the instructions to add Junit Support and Run the Test.
@@ -185,6 +221,12 @@ Follow the instructions to add Junit Support and Run the Test.
 ![test-running-clean](assets/image-22.png)
 
 ## Step 5: Adding Swagger Documentation
+
+
+👤Prompt:
+```plaintext
+How to add Swagger documentation to this API?
+```
 
 ![swagger-prompt](assets/image-23.png)
 
@@ -212,9 +254,21 @@ We will be going to add Java Stream support to make validations to our methods.
 
 Using Copilot Inline **Ctrl/Cmd + Shift + G** to add the documentation.
 
+👤Prompt:
+```plaintext
+/doc el siguiente metodo
+```
+
 ![docs-inline](assets/image-24.png)
 
 Or using the chat, grab the **MovieServiceImpl** to the Chat and make a prompt using /doc.
+
+
+👤Prompt:
+```plaintext
+/doc all the methods in this service
+```
+attach the service file.
 
 ![using-chat](assets/image-25.png)
 
