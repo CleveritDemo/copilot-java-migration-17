@@ -220,35 +220,7 @@ Follow the instructions to add Junit Support and Run the Test.
 
 ![test-running-clean](assets/image-22.png)
 
-## Step 5: Adding Swagger Documentation
-
-
-👤Prompt:
-```plaintext
-How to add Swagger documentation to this API?
-```
-
-![swagger-prompt](assets/image-23.png)
-
-This example is intended to fail, we see here how copilot doesn’t have updated the spring-doc documentation and tries to use old version of swagger; in fact, I must google it to fix the error of dependencies.
-
-### Troubleshooting
-
-We only must add this dependency to have already defined our Swagger.
-
-```xml
-<dependency>
-    <groupId>org.springdoc</groupId>
-    <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-    <version>2.5.0</version>
-</dependency>
-```
-
-And we can see our Swagger doc at: 
-
-- http://localhost:8080/swagger-ui/index.html
-
-## Step 6: Add Documentation using Inline & Chat
+## Step 5: Add Documentation using Inline & Chat
 
 We will be going to add Java Stream support to make validations to our methods.
 
